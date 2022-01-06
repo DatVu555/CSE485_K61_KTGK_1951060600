@@ -1,73 +1,66 @@
-<div style="color: red">
-    <?php echo $error; ?>
-</div>
+<?php
+    session_start();
+    if(!isset($_SESSION['isLoginOK'])){
+        header("location:login.php");
+    }
+?>
+    <main>
+    <div class="container">
+        <h5 class="text-center">Thêm mới giáo viên</h5>
+        <form action="process-add-employee.php" method="post">
+            <div class="form-group">
+                <label for="txtHoTen">Họ và tên</label>
+                <input type="text" class="form-control" id="txtHoTen" name="txtHoTen" placeholder="Nhập họ tên">
+            </div>
+            
+            <div class="form-group">
+                <label for="txtNgaysinh">Ngày sinh</label>
+                <input type="text" class="form-control" id="txtNgaysinh" name="txtChucVu" placeholder="Nhập Ngày sinh">
+            </div>
 
-<h1>
-    Sửa giảng viên
-</h1>
-<form action="" method="post">
-    Họ và tên:
-    <input type="text"
-           name="hovaten"
-           value="<?php
-           echo isset($_POST['hovaten']) ? $_POST['hovaten'] : $teacher['hovaten']?>"
-    />
-    <br />
+            <div class="form-group">
+                <label for="txtTrinhdo">Trình độ</label>
+                <input type="text" class="form-control" id="txtTrinhdo" name="txtTrinhdo" placeholder="Nhập trình độ">
+            </div>
+            <div class="form-group">
+                <label for="txtchuyenmon">Chuyên môn</label>
+                <input type="text" class="form-control" id="txtchuyenmon" name="txtchuyenmon" placeholder="Nhập chuyên môn">
+                
+            </div>
+            <div class="form-group">
+                <label for="txthocham">Học hàm</label>
+                <input type="text" class="form-control" id="txthocham" name="txthocham" placeholder="Nhập học hàm">
+               
+            </div>
+            <div class="form-group">
+                <label for="txthocvi">Học vị</label>
+                <input type="text" class="form-control" id="txthocvi" name="txthocvi" placeholder="Nhập học vị">
+               
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect2">Cơ quan/Đơn vị/</label>
+                <select class="form-control" id="cboDonVi" name="cboDonVi">
+                    <?php 
+                        $conn = mysqli_connect('localhost','root','','1951060600_university');
+                        if(!$conn){
+                            die("Kết nối thất bại. Vui lòng kiểm tra lại các thông tin máy chủ");
+                        }
+                        $sql = "SELECT * FROM db_donvi";
 
-    Ngày sinh :
-    <input type="text"
-           name="ngaysinh"
-           value="<?php
-           echo isset($_POST['ngaysinh']) ? $_POST['ngaysinh'] : $teacher['ngaysinh']?>"
-    />
-    <br />
-    Giới tính:
-    <input type="text"
-           name="gioitinh"
-           value="<?php
-           echo isset($_POST['gioitinh']) ? $_POST['gioitinh'] : $teacher['gioitinh']?>"
-    />
-    <br />
-    
-    Trình độ: 
-    <input type="text"
-           name="trinhdo"
-           value="<?php
-           echo isset($_POST['trinhdo']) ? $_POST['trinhdo'] : $teacher['trinhdo']?>"
-    />
-    <br />
-
-    Chuyên môn :
-    <input type="text"
-           name="chuyenmon"
-           value="<?php
-           echo isset($_POST['chuyenmon']) ? $_POST['chuyenmon'] : $teacher['chuyenmon']?>"
-    />
-    <br />
-
-    Học hàm :
-    <input type="text"
-           name="hocham"
-           value="<?php
-           echo isset($_POST['hocham']) ? $_POST['hocham'] : $teacher['hocham']?>"
-    />
-    <br />
-
-    Học vị :
-    <input type="text"
-           name="hocvi"
-           value="<?php
-           echo isset($_POST['hocvi']) ? $_POST['hocvi'] : $teacher['hocvi']?>"
-    />
-    <br />
-
-    Cơ quan :
-    <input type="text"
-           name="coquan"
-           value="<?php
-           echo isset($_POST['coquan']) ? $_POST['coquan'] : $teacher['coquan']?>"
-    />
-    <br />
-
-    <input type="submit" name="submit" value="Update" />
-</form>
+                        $result = mysqli_query($conn,$sql);
+                        if(mysqli_num_rows($result)){
+                            while($row = mysqli_fetch_assoc($result)){
+                    ?>
+                                <option value="<?php echo $row['ma_donvi']; ?>"><?php echo $row['ten_donvi']; ?></option>
+                    <?php
+                            }
+                        }
+                        mysqli_close($conn);
+                    ?>
+               
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Lưu lại</button>
+        </form>
+    </div>    
+    </main>
